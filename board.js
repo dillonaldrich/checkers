@@ -9,14 +9,21 @@ var grid = [[null, new newSpaces.Space('b8', false), null, new newSpaces.Space('
             [null, new newSpaces.Space('b2', false), null, new newSpaces.Space('d2', false), null, new newSpaces.Space('f2', false), null, new newSpaces.Space('h2', false)],
             [new newSpaces.Space('a1', false), null, new newSpaces.Space('c1', false), null, new newSpaces.Space('e1', false), null, new newSpaces.Space('g1', false), null]];
 
+var gridLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+var whiteRem, blackRem, move;
+
 exports.Board = class {
 
 
     constructor() {}
 
     display() {
+        var string;
+        console.log();
+        console.log('Black Pieces Remaining: ' + blackRem + '\tWhite Pieces Remaining: ' + whiteRem);
+        console.log();
         for(let i = 0; i < grid.length; i++) {
-            var string = '';
+            string = '';
             var pieceString = '';
             for(let j = 0; j < grid[i].length; j++) {
                 if(grid[i][j] === null) {
@@ -24,8 +31,7 @@ exports.Board = class {
                     pieceString += 'ZZZZZZ';
                 }
                 else {
-                    if(grid[i][j].getHasPiece())
-                    {
+                    if(grid[i][j].getHasPiece()) {
                         pieceString += '  ' + grid[i][j].getTeam() + grid[i][j].getTeam() + '  ';
                     }
                     else {
@@ -35,10 +41,18 @@ exports.Board = class {
                     
                 }
             }
+            pieceString += '  ' + (8 - i);
             console.log(string);
             console.log(pieceString);
             console.log(string);
         }
+        string = '';
+        console.log();
+        for(var i = 0; i < gridLetters.length; i++) {
+            string += '  ' + gridLetters[i] + '   ';
+        }
+        console.log(string);
+        console.log(move + "'s Move");
     }
 
     readyBoard() {
@@ -49,12 +63,15 @@ exports.Board = class {
                 }
             }
         }
-        for(var i = grid.length - 1; i > grid.length - 4; i--) {
+        for(var i = -1 + grid.length; i > -4 + grid.length; i--) {
             for(var j = 0; j < grid[i].length; j++){
                 if(grid[i][j] != null) {
                     grid[i][j].setPiece('W', grid[i][j].getLabel());
                 }
             }
         }
+        whiteRem = 12;
+        blackRem = 12;
+        move = 'White';
     }
 }
